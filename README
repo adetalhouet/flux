@@ -1,0 +1,5 @@
+# Flux
+
+[![Build Status](https://travis-ci.com/adetalhouet/flux.svg?branch=master)](https://travis-ci.com/adetalhouet/flux)
+
+Gradle + gRPC
