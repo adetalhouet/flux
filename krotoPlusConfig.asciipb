@@ -1,5 +1,0 @@
-grpc_coroutines {}
-
-grpc_stub_exts {
-    support_coroutines: true
-}

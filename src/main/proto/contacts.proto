@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package io.adetalhouet.directory;
+
+option java_multiple_files = true;
+option java_package = "io.adetalhouet.directory.grpc";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+message PersonData {
+  string survived = 1;
+  int32 passengerClass = 2;
+  string name = 3;
+  string sex = 4;
+  int32 age = 5;
+  int32 siblingsOrSpousesAboard = 6;
+  int32 parentsOrChildrenAboard = 7;
+  double fare = 8;
+}
+
+message Identifier {
+  string uuid = 1;
+}
+
+message Person {
+  string uuid = 1;
+  PersonData personData = 2;
+}
+
+// Not used in the RPC.  Instead, this is here for the form serialized to disk.
+message PersonDatabase {
+  repeated Person person = 1;
+}
+
+service ContactService {
+  rpc Create (Person) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+            post: "/v1/contacts"
+            body: "*"
+        };
+  };
+
+  rpc Lists (google.protobuf.Empty) returns (stream Person) {
+    option (google.api.http) = {
+            get: "/v1/contacts"
+        };
+  };
+
+  rpc Get (Identifier) returns (Person) {
+    option (google.api.http) = {
+            get: "/v1/contacts/{uuid}"
+        };
+  };
+}
